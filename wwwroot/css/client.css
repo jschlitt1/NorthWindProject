@@ -30,3 +30,7 @@
     display: none;
     user-select: none;
 }
+
+#product_table tr {
+    cursor: pointer;
+}

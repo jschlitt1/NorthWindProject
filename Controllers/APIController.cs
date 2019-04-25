@@ -35,5 +35,9 @@ namespace Northwind.Controllers
         // returns all products in a specific category where discontinued = true/false
         // and where unitprice <= maxprice
         public IEnumerable<Product> GetByCategoryDiscontinuedPrice(int CategoryId, bool discontinued, int maxprice) => repository.Products.Where(p => p.CategoryId == CategoryId && p.Discontinued == discontinued && p.UnitPrice <= maxprice).OrderBy(p => p.ProductName);
+
+        [HttpPost, Route("api/addtocart")]
+        // adds a row to the cartitem table
+        public CartItem Post([FromBody] CartItemJSON cartItem) => repository.AddToCart(cartItem);
     }
 }
