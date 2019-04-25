@@ -12,7 +12,11 @@ namespace Northwind.Controllers
         public ProductController(INorthwindRepository repo) => repository = repo;
 
         public IActionResult Category() => View(repository.Categories.OrderBy(c => c.CategoryName));
-        public IActionResult Index(int id) => View(repository.Products.Where(p => p.CategoryId == id && p.Discontinued == false).OrderBy(p => p.ProductName));
+        public IActionResult Index(int id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
         public IActionResult Discounts() => View(repository.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now));
     }
 }

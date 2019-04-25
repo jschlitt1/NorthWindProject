@@ -1,22 +1,69 @@
-﻿@using Northwind.Models
-@model IEnumerable<Product>
-
-<table class="table table-hover">
+﻿<table class="table table-hover">
     <thead>
         <tr>
             <th scope="col">Product</th>
-            <th scope="col" class="text-right">Price</th>
+            <th scope="col" class="text-right">
+                <span id="priceFilter" class="text-primary"><i class="fas fa-filter"></i> Price</span>
+            </th>
             <th scope="col" class="text-right">Stock</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (Product p in Model)
-        {
-        <tr>
-            <td>@p.ProductName</td>
-            <td class="text-right">@string.Format("{0:c}", p.UnitPrice)</td>
-            <td class="text-right">@p.UnitsInStock</td>
-        </tr>
-        }
+    <tbody id="product_table" data-id="@ViewBag.id">
+
     </tbody>
 </table>
+<div id="priceBar" class="border-top border-secondary bg-light p-2 pr-4 text-right">
+    Maximum Price: <span id="maxPrice">none</span>
+    <i id="priceDown" data-val="-5" class="fas fa-chevron-circle-down ml-1 text-primary"></i>
+    <i id="priceUp" data-val="5" class="fas fa-chevron-circle-up text-primary"></i>
+</div>
+@section scripts
+    {
+    <script>
+    // Turn off ESLint (Windows): Tools - Options - Text Editor - Javascript - Linting
+    $(function () {
+        getProducts()
+
+        $('#priceUp, #priceDown').on('click', function () {
+            var filter = $('#maxPrice').html();
+            var val = Number($(this).data('val'));
+            if (val > 0) {
+                filter = filter == "none" ? val : Number(filter) + val;
+            } else if (filter != "none") {
+                filter = Number(filter) + val <= 0 ? "none" : Number(filter) + val;
+            }
+            $('#maxPrice').html(filter);
+            getProducts();
+        });
+
+        $('#priceFilter').on('click', function () {
+            $('#priceBar').toggle();
+        });
+
+        function getProducts() {
+            var id = $('#product_table').data('id');
+            var filter = $('#maxPrice').html() == "none" ? "" : "/maxprice/" + $('#maxPrice').html();
+
+            $.getJSON({
+                url: "../../api/category/" + id + "/product/discontinued/false" + filter,
+                success: function (response, textStatus, jqXhr) {
+                    //console.log(response);
+                    $('#product_table').html("");
+                    for (var i = 0; i < response.length; i++) {
+                        var row = "<tr>"
+                            + "<td>" + response[i].productName + "</td>"
+                            + "<td class=\"text-right\">$" + response[i].unitPrice.toFixed(2) + "</td>"
+                            + "<td class=\"text-right\">" + response[i].unitsInStock + "</td>"
+                            + "</tr>";
+                        $('#product_table').append(row);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // log the error to the console
+                    console.log("The following error occured: " + textStatus, errorThrown);
+                }
+            });
+        }
+    });
+    </script>
+}
