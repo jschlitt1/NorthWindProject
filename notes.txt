@@ -1,0 +1,33 @@
+Problem text:
+Complete the Shopping Cart. Customers should be able to view their cart, update qty., and remove items from their cart(use AJAX). In addition, include a cart checkout feature that removes items from the cart and updates the appropriateorder tables.Don’t forget to allow them the ability to apply any related product discount.
+
+emails:
+	jschlitt1@my.wctc.edu
+	nnguyen1@my.wctc.edu
+
+Plan:
+thinking of putting cart page next to signout
+
+next create the page
+	table to format layout
+	will need a form to update quantity
+		placeholder would be the current quantity
+			refer to when we updated customer information
+	have buttons like the admin view from blogs
+		have an update button
+		have a button to remove the item completly no mater the quantity
+	have item removed if quantity is set to 0
+
+checkout
+	discount code would need to be applied
+		have button next to item to say apply which will check if the code is valid
+			check first needs to see if the code exists
+			then check to see if the product the code is for matches
+				loop through cart and look at product name or id depending on how discount is set up
+			check experation if needbe
+	remove the quantity of the item purchased from stock
+
+"extra"
+	confirm shipping address? (would be customer address by default)
+
+
