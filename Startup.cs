@@ -13,6 +13,7 @@ namespace Northwind
         // this class needs the connection info stored in the 
         // appsettings.json config file - that's a dependency
         // with dependency injection we expose the config file to this class
+        //sample change
         public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {

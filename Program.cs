@@ -16,7 +16,7 @@ namespace Northwind
         {
             CreateWebHostBuilder(args).Build().Run();
         }
-
+        //sample change 2
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
