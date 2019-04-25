@@ -6,10 +6,13 @@ emails:
 	nnguyen1@my.wctc.edu
 
 current issues:
-	Items do not add to cart
-		possible issue is the database is missing the cartitem table
+	thinks Model is null?
 
 Plan:
+
+cart controller:
+	show view of cart
+	be able to update or remove items
 
 thinking of putting cart page next to signout
 
@@ -35,5 +38,6 @@ checkout
 "extra"
 	confirm shipping address? (would be customer address by default)
 	check to make sure there are enough items in stock in order to buy them
+	get cart for link
 
 

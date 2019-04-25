@@ -53,8 +53,8 @@
             </ul>
             @if (User?.Identity?.IsAuthenticated ?? false)
             {
+                <a class="mr-5 signInOut" asp-controller="Cart" asp-action="CartList">Cart</a>
                 <a class="signInOut mr-2" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
-                //put a link here for the cart?
             }
             else
             {
