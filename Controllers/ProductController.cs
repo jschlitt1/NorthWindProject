@@ -12,7 +12,7 @@ namespace Northwind.Controllers
         public ProductController(INorthwindRepository repo) => repository = repo;
 
         public IActionResult Category() => View(repository.Categories.OrderBy(c => c.CategoryName));
-        //
+        
         public IActionResult Index(int id)
         {
             ViewBag.id = id;
