@@ -6,10 +6,16 @@ emails:
 	nnguyen1@my.wctc.edu
 
 current issues:
+	want to add the authorized attriute before our classes
 	things not adding to cart? was working last week
+		customer@mail.com works but user@mail.com does not even though they are both in the customer role
+			user@mail.com isnt part of the northwind Customers table, so therefore it wouldent work
 	need to add to the controller class: ability to delete what is in for the cart items
 	Viewing everything in all carts, instead of per customer
 
+questions:
+	weird user bug?
+	where is the customerID of the user loged in saved
 
 Plan:
 
