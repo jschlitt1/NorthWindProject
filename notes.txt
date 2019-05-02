@@ -6,10 +6,10 @@ emails:
 	nnguyen1@my.wctc.edu
 
 current issues:
-	thinks Model is null?
+	things not adding to cart? was working last week
+	need to add to the controller class: ability to delete what is in for the cart items
+	Viewing everything in all carts, instead of per customer
 
-maybe model doesnt exist
-	does it need to be passed from controller?
 
 Plan:
 
