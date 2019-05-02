@@ -77,5 +77,10 @@ namespace Northwind.Models
             CartItemToUpdate.Quantity = cartItem.Quantity;
             context.SaveChanges();
         }
+
+        public void UpdateInStock(Product product)
+        {
+
+        }
     }
 }

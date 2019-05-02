@@ -22,8 +22,7 @@
             <td>@i.Product.ProductName</td>
             <td>
                 <form asp-action="UpdateQuantity" asp-route-id="@i.CartItemId" method="post">
-                    <input type="hidden" asp-for="@i.CartItemId" />
-                    <input type="number" asp-for="@i.Quantity">
+                    <input type="number" name="Quantity" value="@i.Quantity">
                     <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
                 </form>
                 
@@ -37,6 +36,7 @@
                     </form>
                 </td>
         </tr>
+        
         }
     }
 </table>
@@ -44,7 +44,7 @@
 <!--Discount form-->
 <form asp-action="ApplyDiscount" method="post">
     <input type="text">
-    <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+    <button type="submit" class="btn btn-sm btn-outline-primary">Validate</button>
 </form>
 
 

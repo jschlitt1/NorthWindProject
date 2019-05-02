@@ -28,19 +28,21 @@ namespace Northwind.Controllers
             repository.RemoveItem(repository.CartItems.FirstOrDefault(i => i.CartItemId == id));
             return RedirectToAction("CartList");
         }
-        [HttpPost]
-        public IActionResult UpdateQuantity(int id)
-        {
-            CartItem cartItem = repository.CartItems.FirstOrDefault(c => c.CartItemId == id);
-            //repository.EditCustomer(customer);
-            repository.UpdateQuantity(cartItem);
-            return RedirectToAction("CartList");
-        }
         //[HttpPost]
-        //public IActionResult UpdateQuantity(CartItem cartItem)
+        //public IActionResult UpdateQuantity(int id)
         //{
+        //    CartItem cartItem = repository.CartItems.FirstOrDefault(c => c.CartItemId == id);
+        //    //repository.EditCustomer(customer);
         //    repository.UpdateQuantity(cartItem);
         //    return RedirectToAction("CartList");
         //}
+        [HttpPost]
+        public IActionResult UpdateQuantity(int? id, int Quantity)
+        {
+            CartItem cartItem = repository.CartItems.FirstOrDefault(ci => ci.CartItemId == id);
+            cartItem.Quantity = Quantity;
+            repository.UpdateQuantity(cartItem);
+            return RedirectToAction("CartList");
+        }
     }
 }
