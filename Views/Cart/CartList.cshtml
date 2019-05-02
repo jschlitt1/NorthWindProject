@@ -18,22 +18,34 @@
     {
         foreach (CartItem i in Model)
         {
-            <tr>
-                <td>@i.Product.ProductName</td>
-                <td>@i.Quantity</td>
+        <tr>
+            <td>@i.Product.ProductName</td>
+            <td>
+                <form asp-action="UpdateQuantity" asp-route-id="@i.CartItemId" method="post">
+                    <input type="hidden" asp-for="@i.CartItemId" />
+                    <input type="number" asp-for="@i.Quantity">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+                </form>
+                
+            </td>
+                
                 <td>@i.Product.UnitPrice</td>
                 <td>
-                    <form asp-action="Delete" asp-route-id="@i.CartItemId" method="post">
-                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@i.CartItemId">Edit</a>
+                    <form asp-action="RemoveItem" asp-route-id="@i.CartItemId" method="post">
+                        <!-- <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="i.CartItemId">Edit</a> -->
                         <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                     </form>
                 </td>
-            </tr>
+        </tr>
         }
     }
 </table>
 
-<p>put discount form here</p>
+<!--Discount form-->
+<form asp-action="ApplyDiscount" method="post">
+    <input type="text">
+    <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+</form>
 
 
 <p>Total: $<div id="total">Output area for Total calced by prices</div></p>

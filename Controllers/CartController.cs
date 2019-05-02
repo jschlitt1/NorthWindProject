@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
@@ -21,27 +22,25 @@ namespace Northwind.Controllers
             return View(repository.CartItems.Include("Product").Where(u => u.CustomerId == customerId));
         }
 
+        [HttpPost]
+        public IActionResult RemoveItem(int id)
+        {
+            repository.RemoveItem(repository.CartItems.FirstOrDefault(i => i.CartItemId == id));
+            return RedirectToAction("CartList");
+        }
+        [HttpPost]
+        public IActionResult UpdateQuantity(int id)
+        {
+            CartItem cartItem = repository.CartItems.FirstOrDefault(c => c.CartItemId == id);
+            //repository.EditCustomer(customer);
+            repository.UpdateQuantity(cartItem);
+            return RedirectToAction("CartList");
+        }
         //[HttpPost]
-        //public async Task<IActionResult> Delete(string id)
+        //public IActionResult UpdateQuantity(CartItem cartItem)
         //{
-        //    AppUser user = await userManager.FindByIdAsync(id);
-        //    if (user != null)
-        //    {
-        //        IdentityResult result = await userManager.DeleteAsync(user);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //        else
-        //        {
-        //            AddErrorsFromResult(result);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        ModelState.AddModelError("", "User Not Found");
-        //    }
-        //    return View("Index", userManager.Users);
+        //    repository.UpdateQuantity(cartItem);
+        //    return RedirectToAction("CartList");
         //}
     }
 }
