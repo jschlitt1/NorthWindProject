@@ -25,16 +25,17 @@
                     <input type="number" name="Quantity" value="@i.Quantity">
                     <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
                 </form>
-                
+
             </td>
-                
-                <td>@i.Product.UnitPrice</td>
-                <td>
-                    <form asp-action="RemoveItem" asp-route-id="@i.CartItemId" method="post">
-                        <!-- <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="i.CartItemId">Edit</a> -->
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                    </form>
-                </td>
+
+            <td>@i.Product.UnitPrice</td>
+
+            <td>
+                <form asp-action="RemoveItem" asp-route-id="@i.CartItemId" method="post">
+                    <!-- <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="i.CartItemId">Edit</a> -->
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </td>
         </tr>
         
         }

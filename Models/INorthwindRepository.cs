@@ -15,6 +15,7 @@ namespace Northwind.Models
         void RemoveItem(CartItem cartItem);
         void UpdateQuantity(CartItem cartItem);
         void UpdateInStock(Product product);
+        void CheckDiscount(Discount discount);
 
         CartItem AddToCart(CartItemJSON cartItemJSON);
         

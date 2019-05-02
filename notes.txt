@@ -6,16 +6,17 @@ emails:
 	nnguyen1@my.wctc.edu
 
 current issues:
+	was working on discoint, current build will not work
 	want to add the authorized attriute before our classes
 	things not adding to cart? was working last week
 		customer@mail.com works but user@mail.com does not even though they are both in the customer role
 			user@mail.com isnt part of the northwind Customers table, so therefore it wouldent work
-	need to add to the controller class: ability to delete what is in for the cart items
-	Viewing everything in all carts, instead of per customer
+	may want to format money when there
 
-questions:
-	weird user bug?
-	where is the customerID of the user loged in saved
+info:
+when updateing via customer example you need info for all of the fields to create an updated amount
+
+
 
 Plan:
 
@@ -33,7 +34,7 @@ next create the page
 	have buttons like the admin view from blogs
 		have an update button
 		have a button to remove the item completly no mater the quantity
-	have item removed if quantity is set to 0
+	have item removed if quantity is set to 0 ***
 
 checkout
 	discount code would need to be applied

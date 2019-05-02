@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
 
+
 namespace Northwind.Controllers
 {
     public class CartController : Controller
@@ -19,6 +20,21 @@ namespace Northwind.Controllers
         public ActionResult CartList()
         {
             int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
+
+            //decimal[] CartItemPrices = repository.CartItems
+            //    .Include("Product")
+            //    .Where(u => u.CustomerId == customerId)
+            //    .Select(p => new { p.Product.UnitPrice })
+            //    .ToArray();
+
+            ////foreach (cartItem i in Model)
+
+
+            //var total = CartItemPrices.Sum();
+
+            //ViewBag.Total = total;
+
+
             return View(repository.CartItems.Include("Product").Where(u => u.CustomerId == customerId));
         }
 
@@ -42,6 +58,15 @@ namespace Northwind.Controllers
             CartItem cartItem = repository.CartItems.FirstOrDefault(ci => ci.CartItemId == id);
             cartItem.Quantity = Quantity;
             repository.UpdateQuantity(cartItem);
+            return RedirectToAction("CartList");
+        }
+        [HttpPost]
+        //needs to be updated
+        public IActionResult ApplyDiscount(string Code)
+        {
+            Discount discount = repository.Discounts.FirstOrDefault(d => d.Code == Code);
+            //needs to recived the changed discount
+            repository.CheckDiscount(discount);
             return RedirectToAction("CartList");
         }
     }

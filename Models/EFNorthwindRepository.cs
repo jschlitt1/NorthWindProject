@@ -82,5 +82,10 @@ namespace Northwind.Models
         {
 
         }
+        public void CheckDiscount(Discount discount)
+        {
+            //if code recived from controller equals a current discount then send valid
+            //if not send invalid
+        }
     }
 }
