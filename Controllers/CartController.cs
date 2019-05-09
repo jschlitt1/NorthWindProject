@@ -51,14 +51,14 @@ namespace Northwind.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //needs to be updated
-        public IActionResult ApplyDiscount(int Code)
+        public IActionResult CartList(int Code)
         {
             int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
             bool valid = false;
             //apply after
             //int[] AppliedDiscounts;
 
-            Discount discount = repository.Discounts.FirstOrDefault(d => d.Code == Code);
+            Discount discount = repository.Discounts.Include("Product").FirstOrDefault(d => d.Code == Code);
             //testing for invalid code
             if (discount == null)
             {
@@ -67,7 +67,7 @@ namespace Northwind.Controllers
                 
             }
             //check date
-            else if (discount.EndTime >= DateTime.Now)
+            else if (discount.EndTime <= DateTime.Now)
             {
                 //tell user discount is outdated
                 ModelState.AddModelError("", "The code is out-dated");
@@ -94,7 +94,16 @@ namespace Northwind.Controllers
             }
             if(valid)
             {
-                decimal total = ViewBag.Total;
+                //int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
+
+                IQueryable<decimal> prices = repository.CartItems
+                    .Include("Product")
+                    .Where(u => u.CustomerId == customerId)
+                    .Select(p => p.Product.UnitPrice);
+
+                decimal[] priceList = prices.ToArray();
+                decimal total = priceList.Sum();
+                //decimal total = ViewBag.Total;
                 //where discount.ProductId take that product, look at price
                 //will need include for product
                 decimal ProductPrice = discount.Product.UnitPrice;
@@ -104,10 +113,28 @@ namespace Northwind.Controllers
 
                 //itemPrice * discount = amount off
                 //take amount off from total
+                return RedirectToAction("CartList");
             }
                 //needs to recived the changed discount
                 repository.CheckDiscount(discount);
-            return RedirectToAction("CartList");
+            return View(repository.CartItems.Include("Product").Where(u => u.CustomerId == customerId));
+
+
         }
+        //[HttpPost]
+        //public IActionResult Checkout()
+        //{
+            //this should only be done once per cart
+            //CreateOrder();
+            //this will need to be done with every cart item, info needed listed below, need to create the model before sending it.
+                //OrderID (recive from above)
+                //ProductID (recive from cartItem)
+                //UnitPrice (can follow example in code earlier to get this)
+                //quantity (recive from cartItem)
+                //Discount (??, but used earlier)
+            //CreateOrderDetail();
+
+            //return RedirectToAction("Index");
+        //}
     }
 }
