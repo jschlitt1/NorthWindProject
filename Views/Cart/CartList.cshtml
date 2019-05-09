@@ -1,7 +1,7 @@
 ﻿@using Northwind.Models
 @model IEnumerable<CartItem>
 
-<h1>All carts</h1>
+<h1>Your cart</h1>
 
 <table>
     <tr>
@@ -28,7 +28,7 @@
 
             </td>
 
-            <td>@i.Product.UnitPrice</td>
+            <td>$@i.Product.UnitPrice</td>
 
             <td>
                 <form asp-action="RemoveItem" asp-route-id="@i.CartItemId" method="post">
@@ -39,16 +39,25 @@
         </tr>
         
         }
+        <tr>
+            <td>Total</td>
+            <td></td>
+            <td>$@ViewBag.total</td>
+            <td></td>
+        </tr>
     }
 </table>
 
 <!--Discount form-->
 <form asp-action="ApplyDiscount" method="post">
-    <input type="text">
+    <label for="Code">Discount Code:</label>
+    <input type="number" name="Code">
     <button type="submit" class="btn btn-sm btn-outline-primary">Validate</button>
+    <div>@Html.ValidationSummary(true, "", new { @class="text-danger" })</div>
 </form>
 
-
-<p>Total: $<div id="total">Output area for Total calced by prices</div></p>
+<!--
+<p>Total: $ViewBag.total</p>
+    -->
 
 

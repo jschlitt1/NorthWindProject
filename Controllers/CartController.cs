@@ -21,21 +21,17 @@ namespace Northwind.Controllers
         {
             int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
 
-            //decimal[] CartItemPrices = repository.CartItems
-            //    .Include("Product")
-            //    .Where(u => u.CustomerId == customerId)
-            //    .Select(p => new { p.Product.UnitPrice })
-            //    .ToArray();
+            IQueryable<decimal> prices = repository.CartItems
+                .Include("Product")
+                .Where(u => u.CustomerId == customerId)
+                .Select(p => p.Product.UnitPrice);
 
-            ////foreach (cartItem i in Model)
+            decimal[] priceList = prices.ToArray();
+            decimal total = priceList.Sum();
 
+            ViewBag.Total = total;
 
-            //var total = CartItemPrices.Sum();
-
-            //ViewBag.Total = total;
-
-
-            return View(repository.CartItems.Include("Product").Where(u => u.CustomerId == customerId));
+            return View(repository.CartItems.Include("Product").Where(u => u.CustomerId == customerId));            
         }
 
         [HttpPost]
@@ -44,14 +40,6 @@ namespace Northwind.Controllers
             repository.RemoveItem(repository.CartItems.FirstOrDefault(i => i.CartItemId == id));
             return RedirectToAction("CartList");
         }
-        //[HttpPost]
-        //public IActionResult UpdateQuantity(int id)
-        //{
-        //    CartItem cartItem = repository.CartItems.FirstOrDefault(c => c.CartItemId == id);
-        //    //repository.EditCustomer(customer);
-        //    repository.UpdateQuantity(cartItem);
-        //    return RedirectToAction("CartList");
-        //}
         [HttpPost]
         public IActionResult UpdateQuantity(int? id, int Quantity)
         {
@@ -61,12 +49,64 @@ namespace Northwind.Controllers
             return RedirectToAction("CartList");
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         //needs to be updated
-        public IActionResult ApplyDiscount(string Code)
+        public IActionResult ApplyDiscount(int Code)
         {
+            int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
+            bool valid = false;
+            //apply after
+            //int[] AppliedDiscounts;
+
             Discount discount = repository.Discounts.FirstOrDefault(d => d.Code == Code);
-            //needs to recived the changed discount
-            repository.CheckDiscount(discount);
+            //testing for invalid code
+            if (discount == null)
+            {
+                //tell user code is bad
+                ModelState.AddModelError("", "The code is not available");
+                
+            }
+            //check date
+            else if (discount.EndTime >= DateTime.Now)
+            {
+                //tell user discount is outdated
+                ModelState.AddModelError("", "The code is out-dated");
+                
+            }
+            else
+            {
+                //checking to make sure the item is in the cart
+                foreach (CartItem i in repository.CartItems.Where(c => c.CustomerId == customerId))
+                {
+                    if (discount.ProductID == i.ProductId)
+                    {
+                        valid = true;
+                        break;
+                    }
+                    else
+                    {
+                        //tell user that the item they have is not valid
+                        //ModelState.AddModelError("", "You do not have the product this discount code applies for");
+                    }
+                    
+                }
+
+            }
+            if(valid)
+            {
+                decimal total = ViewBag.Total;
+                //where discount.ProductId take that product, look at price
+                //will need include for product
+                decimal ProductPrice = discount.Product.UnitPrice;
+                decimal discountAmount = ProductPrice * discount.DiscountPercent;
+                total = total - discountAmount;
+                ViewBag.total = total;
+
+                //itemPrice * discount = amount off
+                //take amount off from total
+            }
+                //needs to recived the changed discount
+                repository.CheckDiscount(discount);
             return RedirectToAction("CartList");
         }
     }
