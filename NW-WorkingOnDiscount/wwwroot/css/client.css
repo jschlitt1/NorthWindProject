@@ -1,0 +1,36 @@
+﻿body {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.toast {
+    position: fixed;
+    top: 65px;
+    right: 10px;
+}
+
+.signInOut {
+    color: rgba(255,255,255,.5);
+}
+
+.signInOut:hover {
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+}
+
+#priceDown:hover, #priceUp:hover, #priceFilter:hover {
+    opacity: .75;
+    cursor: pointer;
+}
+
+#priceBar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    display: none;
+    user-select: none;
+}
+
+#product_table tr {
+    cursor: pointer;
+}
