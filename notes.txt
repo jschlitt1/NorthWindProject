@@ -6,18 +6,17 @@ emails:
 	nnguyen1@my.wctc.edu
 
 current issues:
-	was working on discoint, current build will not work
+	were looking into getting the discount to work
 	want to add the authorized attriute before our classes
-	things not adding to cart? was working last week
-		customer@mail.com works but user@mail.com does not even though they are both in the customer role
-			user@mail.com isnt part of the northwind Customers table, so therefore it wouldent work
-	may want to format money when there
+	OrderDetails doesnt have a primary key by itself but a composite key. Need to figure out how to make that work with the current model
 
 info:
 when updateing via customer example you need info for all of the fields to create an updated amount
 
+redirect to action if it succeeds
 
-
+things not adding to cart?
+	check to make your on customer@mail.com as thats the only one in the northwind customer database
 Plan:
 
 cart controller:

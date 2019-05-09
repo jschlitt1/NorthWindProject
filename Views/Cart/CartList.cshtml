@@ -51,7 +51,7 @@
 <!--Discount form-->
 <form asp-action="CartList" method="post">
     <label for="Code">Discount Code:</label>
-    <input type="number" name="Code">
+    <input type="number" name="Code" value="@ViewBag.Code">
     <button type="submit" class="btn btn-sm btn-outline-primary">Validate</button>
     <div asp-validation-summary="All" class="text-danger"></div>
 </form>
