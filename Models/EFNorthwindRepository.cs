@@ -84,13 +84,18 @@ namespace Northwind.Models
         public void CheckDiscount(Discount discount)
         {
         }
-        public void CreateOrder(Order order)
+        public int CreateOrder(Order order)
         {
-
+            //int orderId = order.OrderID;
+            context.Orders.Add(order);
+            context.SaveChanges();
+            int orderId = context.Orders.FirstOrDefault(o => o.CustomerID == order.CustomerID).OrderID;
+            return orderId;
         }
         public void CreateOrderDetail(OrderDetail orderDetail)
         {
-
+            context.OrderDetails.Add(orderDetail);
+            context.SaveChanges();
         }
     }
 }

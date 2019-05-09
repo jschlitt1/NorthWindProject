@@ -121,18 +121,34 @@ namespace Northwind.Controllers
 
 
         }
-        //[HttpPost]
-        //public IActionResult Checkout()
-        //{
+        [HttpPost]
+        public IActionResult Checkout()
+        {
             //this should only be done once per cart
-            //CreateOrder();
+            Order newOrder;
+                //need orderID (autogen?)
+                //CustomerID (from this user)
+                newOrder.CustomerID = 
+                //EmployeeID (null)
+                //OrderDate (set as the current date)
+                //RequireDate (null)
+                //ShippedDate (null)
+                //ShipVia (null)
+                //Freight (null)
+                //ShipName (customer name)
+                //ShipAddress (customer address)
+                //ShipCity (customer city)
+                //ShipRegion (customer region)
+                //ShipPostalCode (customer postal code)
+                //ShipCountry (customer country)
+            int OrderID = CreateOrder(newOrder);
             //this will need to be done with every cart item, info needed listed below, need to create the model before sending it.
                 //OrderID (recive from above)
                 //ProductID (recive from cartItem)
                 //UnitPrice (can follow example in code earlier to get this)
                 //quantity (recive from cartItem)
                 //Discount (??, but used earlier)
-            //CreateOrderDetail();
+            CreateOrderDetail();
 
             //return RedirectToAction("Index");
         //}
