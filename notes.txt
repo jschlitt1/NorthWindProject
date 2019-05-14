@@ -9,9 +9,12 @@ current issues:
 	were looking into getting the discount to work
 	want to add the authorized attriute before our classes
 	OrderDetails doesnt have a primary key by itself but a composite key. Need to figure out how to make that work with the current model
+		updated northwind context as wellas the  Order detail modual to make it a composite key (thanks stock overflow)
 
 info:
 when updateing via customer example you need info for all of the fields to create an updated amount
+
+
 
 redirect to action if it succeeds
 

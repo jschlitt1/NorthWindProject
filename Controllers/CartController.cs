@@ -120,56 +120,56 @@ namespace Northwind.Controllers
 
 
         }
-        //[HttpPost]
-        //public IActionResult Checkout()
-        //{
-        //    int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
+        [HttpPost]
+        public IActionResult Checkout()
+        {
+            int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
         //    //this should only be done once per cart
-        //    Order newOrder;
+            Order newOrder;
         //    //var newOrder = context.Orders.FirstOrDefault(o => o.CustomerID == order.CustomerID);
         //    //need orderID (autogen?)
         //    //CustomerID (from this user)
-        //    newOrder.CustomerID = customerId;
+            newOrder.CustomerID = customerId;
         //    //EmployeeID (null)
         //    //OrderDate (set as the current date)
-        //    newOrder.orderDate = DateTime.Now;
+            newOrder.orderDate = DateTime.Now;
         //    //RequireDate (null)
         //    //ShippedDate (null)
         //    //ShipVia (null)
         //    //Freight (null)
         //    //ShipName (customer name)
-        //    newOrder.ShipName = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CompanyName;
+            newOrder.ShipName = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CompanyName;
         //    //ShipAddress (customer address)
-        //    newOrder.ShipAddress = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).Address;
+            newOrder.ShipAddress = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).Address;
         //    //ShipCity (customer city)
-        //    newOrder.ShipCity = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).City;
+            newOrder.ShipCity = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).City;
         //    //ShipRegion (customer region)
-        //    newOrder.ShipRegion = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).Region;
+            newOrder.ShipRegion = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).Region;
         //    //ShipPostalCode (customer postal code)
-        //    newOrder.ShipPostalCode = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).PostalCode;
+            newOrder.ShipPostalCode = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).PostalCode;
         //    //ShipCountry (customer country)
-        //    newOrder.ShipCountry = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).Country;
+            newOrder.ShipCountry = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).Country;
         //    //create with the info provided above
-        //    int OrderID = CreateOrder(newOrder);
+            int OrderID = CreateOrder(newOrder);
         //    //this will need to be done with every cart item, info needed listed below, need to create the model before sending it.
-        //    foreach (CartItem i in repository.CartItems.Include("Product").Where(c => c.CustomerId == customerId))
-        //    {
-        //        OrderDetail newOd;
+            foreach (CartItem i in repository.CartItems.Include("Product").Where(c => c.CustomerId == customerId))
+            {
+                OrderDetail newOd;
         //        //var newOd;
         //        //OrderID (recive from above)
-        //        newOd.OrderID = OrderID;
+                newOd.OrderID = OrderID;
         //        //ProductID (recive from cartItem)
-        //        newOd.ProductID = i.ProductId;
+                newOd.ProductID = i.ProductId;
         //        //UnitPrice (can follow example in code earlier to get this)
-        //        newOd.UnitPrice = i.Product.UnitPrice;
+                newOd.UnitPrice = i.Product.UnitPrice;
         //        //quantity (recive from cartItem)
-        //        newOd.Quantity = i.Quantity;
+                newOd.Quantity = i.Quantity;
         //        //Discount (??, but used earlier)
-        //        //newOd.Discount =
-        //        CreateOrderDetail(newOd);
-        //    }
+                //newOd.Discount =
+                CreateOrderDetail(newOd);
+            }
 
-        //    return RedirectToAction("Index");
-        //}
+            return RedirectToAction("Index");
+        }
     }
 }
