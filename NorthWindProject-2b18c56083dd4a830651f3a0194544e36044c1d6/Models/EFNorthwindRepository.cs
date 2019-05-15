@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Northwind.Models
 {
@@ -80,7 +82,43 @@ namespace Northwind.Models
 
         public void UpdateInStock(Product product)
         {
+            var ProductToUpdate = context.Products.FirstOrDefault(p => p.ProductId == product.ProductId);
+            ProductToUpdate.UnitsInStock = product.UnitsInStock;
+            context.SaveChanges();
         }
+
+        public decimal ApplyDiscount(int customerId, Discount discount, Product product)
+        {
+            //apply discount
+            decimal productPrice = product.UnitPrice;
+            decimal discountAmount = productPrice * discount.DiscountPercent;
+
+            //get total
+            IQueryable<decimal> unitPrices = context.CartItems
+                .Include("Product")
+                .Where(u => u.CustomerId == customerId)
+                .Select(p => p.Product.UnitPrice);
+
+            IQueryable<int> quantity = context.CartItems
+                .Where(u => u.CustomerId == customerId)
+                .Select(c => c.Quantity);
+
+            decimal[] unitPriceList = unitPrices.ToArray();
+            int[] quantityList = quantity.ToArray();
+
+            List<decimal> eachItemTotal = new List<decimal>();
+
+            for (int i = 0; i < unitPriceList.Length; i++)
+            {
+                eachItemTotal.Add(unitPriceList[i] * quantityList[i]);
+            }
+
+            decimal total = eachItemTotal.Sum();
+            total = total - discountAmount;
+
+            return total;
+        }
+
         public void CheckDiscount(Discount discount)
         {
         }

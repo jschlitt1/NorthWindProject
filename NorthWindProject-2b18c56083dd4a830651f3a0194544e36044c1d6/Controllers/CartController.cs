@@ -40,6 +40,7 @@ namespace Northwind.Controllers
             repository.RemoveItem(repository.CartItems.FirstOrDefault(i => i.CartItemId == id));
             return RedirectToAction("CartList");
         }
+
         [HttpPost]
         public IActionResult UpdateQuantity(int? id, int Quantity)
         {
@@ -48,6 +49,16 @@ namespace Northwind.Controllers
             repository.UpdateQuantity(cartItem);
             return RedirectToAction("CartList");
         }
+
+        [HttpPost]
+        public IActionResult UpdateInStock(int? id, short Quantity)
+        {
+            Product product = repository.Products.FirstOrDefault(p => p.ProductId == id);
+            product.UnitsInStock = Quantity;
+            repository.UpdateInStock(product);
+            return RedirectToAction("CartList");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CartList(int Code)
@@ -83,7 +94,8 @@ namespace Northwind.Controllers
                     else
                     {
                         //tell user that the item they have is not valid
-                        //ModelState.AddModelError("", "You do not have the product this discount code applies for");
+                        valid = false;
+                        ModelState.AddModelError("", "Cannot apply the code to your cart");
                     }
                     
                 }
@@ -91,27 +103,10 @@ namespace Northwind.Controllers
             }
             if(valid)
             {
-                //int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
+                //apply ApplyDiscount method
+                Product product = repository.Products.FirstOrDefault(p => p.ProductId == discount.ProductID);
+                ViewBag.Total = repository.ApplyDiscount(customerId, discount, product);
 
-                IQueryable<decimal> prices = repository.CartItems
-                    .Include("Product")
-                    .Where(u => u.CustomerId == customerId)
-                    .Select(p => p.Product.UnitPrice);
-
-                decimal[] priceList = prices.ToArray();
-                decimal total = priceList.Sum();
-                //decimal total = ViewBag.Total;
-                //where discount.ProductId take that product, look at price
-                //will need include for product
-                decimal ProductPrice = discount.Product.UnitPrice;
-                decimal discountAmount = ProductPrice * discount.DiscountPercent;
-                total = total - discountAmount;
-                ViewBag.total = total;
-
-                //itemPrice * discount = amount off
-                //take amount off from total
-                var codeApplied = Code;
-                ViewBag.Code = codeApplied;
                 return RedirectToAction("CartList");
             }
                 //needs to recived the changed discount

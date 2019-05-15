@@ -15,6 +15,7 @@ namespace Northwind.Models
         void RemoveItem(CartItem cartItem);
         void UpdateQuantity(CartItem cartItem);
         void UpdateInStock(Product product);
+        decimal ApplyDiscount(int customerId, Discount discount, Product product);
         void CheckDiscount(Discount discount);
         int CreateOrder(Order order);
         void CreateOrderDetail(OrderDetail orderDetail);
