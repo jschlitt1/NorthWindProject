@@ -11,8 +11,8 @@ namespace Northwind.Models
     {
         [Key, Column(Order = 0)]
         public int OrderID { get; set; }
-      [Required(ErrorMessage = "OrderID is required")][Key]
-        public Order order { get; set; }
+      [Required(ErrorMessage = "OrderID is required")]
+        //public Order order { get; set; }
         [Key, Column(Order = 1)]
         public int ProductID { get; set; }
         public Product product { get; set; }

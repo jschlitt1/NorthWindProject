@@ -27,9 +27,21 @@ namespace Northwind.Controllers
                 .Where(u => u.CustomerId == customerId)
                 .Select(p => p.Product.UnitPrice);
 
-            decimal[] priceList = prices.ToArray();
-            decimal total = priceList.Sum();
+            IQueryable<int> quantity = repository.CartItems
+                .Where(u => u.CustomerId == customerId)
+                .Select(c => c.Quantity);
 
+            decimal[] priceList = prices.ToArray();
+            int[] quantityList = quantity.ToArray();
+
+            List<decimal> eachItemTotal = new List<decimal>();
+
+            for (int i=0; i< priceList.Length; i++)
+            {
+                eachItemTotal.Add(priceList[i] * quantityList[i]);
+            }
+
+            decimal total = eachItemTotal.Sum();
             ViewBag.Total = total;
 
             return View(repository.CartItems.Include("Product").Where(u => u.CustomerId == customerId));            
@@ -83,6 +95,7 @@ namespace Northwind.Controllers
                     }
                     else
                     {
+                        valid = false;
                         //tell user that the item they have is not valid
                         //ModelState.AddModelError("", "You do not have the product this discount code applies for");
                     }
@@ -90,36 +103,38 @@ namespace Northwind.Controllers
                 }
 
             }
+            if (!valid)
+            {
+                ModelState.AddModelError("", "You do not have the product this discount code applies for");
+                IQueryable<decimal> prices = repository.CartItems
+                .Include("Product")
+                .Where(u => u.CustomerId == customerId)
+                .Select(p => p.Product.UnitPrice);
+
+                IQueryable<int> quantity = repository.CartItems
+                    .Where(u => u.CustomerId == customerId)
+                    .Select(c => c.Quantity);
+
+                decimal[] priceList = prices.ToArray();
+                int[] quantityList = quantity.ToArray();
+
+                List<decimal> eachItemTotal = new List<decimal>();
+
+                for (int i = 0; i < priceList.Length; i++)
+                {
+                    eachItemTotal.Add(priceList[i] * quantityList[i]);
+                }
+
+                decimal total = eachItemTotal.Sum();
+                ViewBag.Total = total;
+            }
             if(valid)
             {
                 //apply ApplyDiscount method
                 Product product = repository.Products.FirstOrDefault(p => p.ProductId == discount.ProductID);
                 ViewBag.Total = repository.ApplyDiscount(customerId, discount, product);
 
-                return RedirectToAction("CartList");
-
-                ////old code
-                ////int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
-
-                //IQueryable<decimal> prices = repository.CartItems
-                //    .Include("Product")
-                //    .Where(u => u.CustomerId == customerId)
-                //    .Select(p => p.Product.UnitPrice);
-
-                //decimal[] priceList = prices.ToArray();
-                //decimal total = priceList.Sum();
-                ////where discount.ProductId take that product, look at price
-                ////will need include for product
-                //decimal ProductPrice = discount.Product.UnitPrice;
-                //decimal discountAmount = ProductPrice * discount.DiscountPercent;
-                //total = total - discountAmount;
-                //ViewBag.total = total;
-
-                ////itemPrice * discount = amount off
-                ////take amount off from total
-                //var codeApplied = Code;
-                //ViewBag.Code = codeApplied;
-                //return RedirectToAction("CartList");
+                //return View("CartList");
             }
                 //needs to recived the changed discount
                 repository.CheckDiscount(discount);
@@ -183,7 +198,7 @@ namespace Northwind.Controllers
 
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

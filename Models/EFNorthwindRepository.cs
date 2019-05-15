@@ -95,7 +95,7 @@ namespace Northwind.Models
             //int orderId = order.OrderID;
             context.Orders.Add(order);
             context.SaveChanges();
-            int orderId = context.Orders.FirstOrDefault(o => o.CustomerID == order.CustomerID).OrderID;
+            int orderId = context.Orders.LastOrDefault(o => o.CustomerID == order.CustomerID).OrderID;
             return orderId;
         }
         public void AddOrderDetail(OrderDetail orderDetail)
