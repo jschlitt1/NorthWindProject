@@ -143,7 +143,6 @@ namespace Northwind.Controllers
             //    //RequireDate (null)
             //    //ShippedDate (null)
             //    //ShipVia (null)
-            //newOrder.ShipVia = 1;
         //    //Freight (null)
         //    //ShipName (customer name)
             newOrder.ShipName = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CompanyName;
@@ -175,11 +174,12 @@ namespace Northwind.Controllers
         //        //Discount (??, but used earlier)
                 //normallly will be null but need to run if statements to check
                 //newOd.Discount =
-                repository.CreateOrderDetail(newOd);
+                repository.AddOrderDetail(newOd);
                 //remove the items from the instock level (in loop as you might as well remove the items after processing that part of the order
                 repository.UpdateInStock(repository.Products.FirstOrDefault(p => p.ProductId == i.ProductId), i.Quantity);
                 
             }
+            repository.SaveOrderDetail();
 
 
 

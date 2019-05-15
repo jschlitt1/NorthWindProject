@@ -20,7 +20,8 @@ namespace Northwind.Models
         void UpdateInStock(Product product, int qty);
         void CheckDiscount(Discount discount);
         int CreateOrder(Order order);
-        void CreateOrderDetail(OrderDetail orderDetail);
+        void AddOrderDetail(OrderDetail orderDetail);
+        void SaveOrderDetail();
         decimal ApplyDiscount(int customerId, Discount discount, Product product);
 
         CartItem AddToCart(CartItemJSON cartItemJSON);

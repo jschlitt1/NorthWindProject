@@ -98,9 +98,12 @@ namespace Northwind.Models
             int orderId = context.Orders.FirstOrDefault(o => o.CustomerID == order.CustomerID).OrderID;
             return orderId;
         }
-        public void CreateOrderDetail(OrderDetail orderDetail)
+        public void AddOrderDetail(OrderDetail orderDetail)
         {
             context.OrderDetails.Add(orderDetail);
+        }
+        public void SaveOrderDetail()
+        {
             context.SaveChanges();
         }
         public decimal ApplyDiscount(int customerId, Discount discount, Product product)
