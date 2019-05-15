@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Northwind.Models
 {
@@ -18,7 +19,8 @@ namespace Northwind.Models
         public string ShipPostalCode { get; set; }
         public string ShipCountry { get; set; }
 
-        public int ShipVia { get; set; }
+        [ForeignKey("ShipperID")]
+        public int ShipVia { get; set; }        
         public Shipper shipper{ get; set; }
 
         public int CustomerID { get; set; }

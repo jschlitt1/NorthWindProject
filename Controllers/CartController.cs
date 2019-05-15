@@ -101,7 +101,6 @@ namespace Northwind.Controllers
 
                 decimal[] priceList = prices.ToArray();
                 decimal total = priceList.Sum();
-                //decimal total = ViewBag.Total;
                 //where discount.ProductId take that product, look at price
                 //will need include for product
                 decimal ProductPrice = discount.Product.UnitPrice;
@@ -126,7 +125,7 @@ namespace Northwind.Controllers
         {
             int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
         //    //this should only be done once per cart
-            Order newOrder;
+            Order newOrder = new Order();
         //   var newOrder = context.Orders.FirstOrDefault(o => o.CustomerID == customerId);
         //    //need orderID (autogen?)
         //    //CustomerID (from this user)
@@ -134,9 +133,10 @@ namespace Northwind.Controllers
         //    //EmployeeID (null)
         //    //OrderDate (set as the current date)
             newOrder.orderDate = DateTime.Now;
-        //    //RequireDate (null)
-        //    //ShippedDate (null)
-        //    //ShipVia (null)
+            //    //RequireDate (null)
+            //    //ShippedDate (null)
+            //    //ShipVia (null)
+            //newOrder.ShipVia = 1;
         //    //Freight (null)
         //    //ShipName (customer name)
             newOrder.ShipName = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CompanyName;
@@ -155,7 +155,7 @@ namespace Northwind.Controllers
         //    //this will need to be done with every cart item, info needed listed below, need to create the model before sending it.
             foreach (CartItem i in repository.CartItems.Include("Product").Where(c => c.CustomerId == customerId))
             {
-                OrderDetail newOd;
+                OrderDetail newOd = new OrderDetail();
         //        //var newOd;
         //        //OrderID (recive from above)
                 newOd.OrderID = OrderID;

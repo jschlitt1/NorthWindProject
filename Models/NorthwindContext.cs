@@ -13,6 +13,7 @@ namespace Northwind.Models
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Shipper> Shippers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
