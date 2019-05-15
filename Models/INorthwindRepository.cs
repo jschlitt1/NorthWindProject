@@ -21,6 +21,7 @@ namespace Northwind.Models
         void CheckDiscount(Discount discount);
         int CreateOrder(Order order);
         void CreateOrderDetail(OrderDetail orderDetail);
+        decimal ApplyDiscount(int customerId, Discount discount, Product product);
 
         CartItem AddToCart(CartItemJSON cartItemJSON);
         

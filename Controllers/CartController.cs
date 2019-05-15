@@ -92,27 +92,34 @@ namespace Northwind.Controllers
             }
             if(valid)
             {
-                //int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
+                //apply ApplyDiscount method
+                Product product = repository.Products.FirstOrDefault(p => p.ProductId == discount.ProductID);
+                ViewBag.Total = repository.ApplyDiscount(customerId, discount, product);
 
-                IQueryable<decimal> prices = repository.CartItems
-                    .Include("Product")
-                    .Where(u => u.CustomerId == customerId)
-                    .Select(p => p.Product.UnitPrice);
-
-                decimal[] priceList = prices.ToArray();
-                decimal total = priceList.Sum();
-                //where discount.ProductId take that product, look at price
-                //will need include for product
-                decimal ProductPrice = discount.Product.UnitPrice;
-                decimal discountAmount = ProductPrice * discount.DiscountPercent;
-                total = total - discountAmount;
-                ViewBag.total = total;
-
-                //itemPrice * discount = amount off
-                //take amount off from total
-                var codeApplied = Code;
-                ViewBag.Code = codeApplied;
                 return RedirectToAction("CartList");
+
+                ////old code
+                ////int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
+
+                //IQueryable<decimal> prices = repository.CartItems
+                //    .Include("Product")
+                //    .Where(u => u.CustomerId == customerId)
+                //    .Select(p => p.Product.UnitPrice);
+
+                //decimal[] priceList = prices.ToArray();
+                //decimal total = priceList.Sum();
+                ////where discount.ProductId take that product, look at price
+                ////will need include for product
+                //decimal ProductPrice = discount.Product.UnitPrice;
+                //decimal discountAmount = ProductPrice * discount.DiscountPercent;
+                //total = total - discountAmount;
+                //ViewBag.total = total;
+
+                ////itemPrice * discount = amount off
+                ////take amount off from total
+                //var codeApplied = Code;
+                //ViewBag.Code = codeApplied;
+                //return RedirectToAction("CartList");
             }
                 //needs to recived the changed discount
                 repository.CheckDiscount(discount);

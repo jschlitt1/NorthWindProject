@@ -20,31 +20,14 @@ redirect to action if it succeeds
 
 things not adding to cart?
 	check to make your on customer@mail.com as thats the only one in the northwind customer database
-Plan:
 
-cart controller:
-	show view of cart
-	be able to update or remove items
-
-thinking of putting cart page next to signout
 
 next create the page
-	table to format layout
-	will need a form to update quantity
-		placeholder would be the current quantity
-			refer to when we updated customer information
-	have buttons like the admin view from blogs
-		have an update button
-		have a button to remove the item completly no mater the quantity
+
 	have item removed if quantity is set to 0 ***
 
 checkout
 	discount code would need to be applied
-		have button next to item to say apply which will check if the code is valid
-			check first needs to see if the code exists
-			then check to see if the product the code is for matches
-				loop through cart and look at product name or id depending on how discount is set up
-			check experation if needbe
 	remove the quantity of the item purchased from stock
 
 "extra"
