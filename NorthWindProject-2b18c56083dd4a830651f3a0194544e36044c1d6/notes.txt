@@ -1,0 +1,55 @@
+Problem text:
+Complete the Shopping Cart. Customers should be able to view their cart, update qty., and remove items from their cart(use AJAX). In addition, include a cart checkout feature that removes items from the cart and updates the appropriateorder tables.Don’t forget to allow them the ability to apply any related product discount.
+
+emails:
+	jschlitt1@my.wctc.edu
+	nnguyen1@my.wctc.edu
+
+current issues:
+	were looking into getting the discount to work
+	want to add the authorized attriute before our classes
+	OrderDetails doesnt have a primary key by itself but a composite key. Need to figure out how to make that work with the current model
+		updated northwind context as wellas the  Order detail modual to make it a composite key (thanks stock overflow)
+
+info:
+when updateing via customer example you need info for all of the fields to create an updated amount
+
+
+
+redirect to action if it succeeds
+
+things not adding to cart?
+	check to make your on customer@mail.com as thats the only one in the northwind customer database
+Plan:
+
+cart controller:
+	show view of cart
+	be able to update or remove items
+
+thinking of putting cart page next to signout
+
+next create the page
+	table to format layout
+	will need a form to update quantity
+		placeholder would be the current quantity
+			refer to when we updated customer information
+	have buttons like the admin view from blogs
+		have an update button
+		have a button to remove the item completly no mater the quantity
+	have item removed if quantity is set to 0 ***
+
+checkout
+	discount code would need to be applied
+		have button next to item to say apply which will check if the code is valid
+			check first needs to see if the code exists
+			then check to see if the product the code is for matches
+				loop through cart and look at product name or id depending on how discount is set up
+			check experation if needbe
+	remove the quantity of the item purchased from stock
+
+"extra"
+	confirm shipping address? (would be customer address by default)
+	check to make sure there are enough items in stock in order to buy them
+	get cart for link
+
+
