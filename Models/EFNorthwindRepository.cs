@@ -78,8 +78,9 @@ namespace Northwind.Models
             context.SaveChanges();
         }
 
-        public void UpdateInStock(Product product)
+        public void UpdateInStock(Product product, int Qty)
         {
+            product.UnitsInStock = (short)(product.UnitsInStock - Qty);
         }
         public void CheckDiscount(Discount discount)
         {

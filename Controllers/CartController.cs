@@ -15,6 +15,7 @@ namespace Northwind.Controllers
     {
         // this controller depends on the NorthwindRepository
         private INorthwindRepository repository;
+        //private NorthwindContext context;
         public CartController(INorthwindRepository repo) => repository = repo;
 
         public ActionResult CartList()
@@ -126,7 +127,7 @@ namespace Northwind.Controllers
             int customerId = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).CustomerID;
         //    //this should only be done once per cart
             Order newOrder;
-        //    //var newOrder = context.Orders.FirstOrDefault(o => o.CustomerID == order.CustomerID);
+        //   var newOrder = context.Orders.FirstOrDefault(o => o.CustomerID == customerId);
         //    //need orderID (autogen?)
         //    //CustomerID (from this user)
             newOrder.CustomerID = customerId;
@@ -150,7 +151,7 @@ namespace Northwind.Controllers
         //    //ShipCountry (customer country)
             newOrder.ShipCountry = repository.Customers.FirstOrDefault(c => c.Email == User.Identity.Name).Country;
         //    //create with the info provided above
-            int OrderID = CreateOrder(newOrder);
+            int OrderID = repository.CreateOrder(newOrder);
         //    //this will need to be done with every cart item, info needed listed below, need to create the model before sending it.
             foreach (CartItem i in repository.CartItems.Include("Product").Where(c => c.CustomerId == customerId))
             {
@@ -165,9 +166,15 @@ namespace Northwind.Controllers
         //        //quantity (recive from cartItem)
                 newOd.Quantity = i.Quantity;
         //        //Discount (??, but used earlier)
+                //normallly will be null but need to run if statements to check
                 //newOd.Discount =
-                CreateOrderDetail(newOd);
+                repository.CreateOrderDetail(newOd);
+                //remove the items from the instock level (in loop as you might as well remove the items after processing that part of the order
+                repository.UpdateInStock(repository.Products.FirstOrDefault(p => p.ProductId == i.ProductId), i.Quantity);
+                
             }
+
+
 
             return RedirectToAction("Index");
         }
