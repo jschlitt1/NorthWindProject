@@ -197,6 +197,12 @@ namespace Northwind.Controllers
             repository.SaveOrderDetail();
 
 
+            //need to remove all items from cart, only new part since last working
+            foreach (CartItem i in repository.CartItems.Include("Product").Where(c => c.CustomerId == customerId))
+            {
+                repository.RemoveAllItem(repository.CartItems.FirstOrDefault(p => p.CartItemId == i.CartItemId));
+            }
+            repository.SaveOrderDetail();
 
             return RedirectToAction("Index", "Home");
         }

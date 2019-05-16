@@ -76,6 +76,12 @@ namespace Northwind.Models
             context.Remove(cartItem);
             context.SaveChanges();
         }
+
+        //im new
+        public void RemoveAllItem(CartItem cartItem)
+        {
+            context.Remove(cartItem);
+        }
         public void UpdateQuantity(CartItem cartItem)
         {
             var CartItemToUpdate = context.CartItems.FirstOrDefault(c => c.CartItemId == cartItem.CartItemId);
