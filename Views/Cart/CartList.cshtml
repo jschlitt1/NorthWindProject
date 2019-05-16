@@ -10,57 +10,58 @@
 }
 else
 {
-    foreach (CartItem i in Model)
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Item Name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">editing</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@i.Product.ProductName</td>
-                    <td>
-                        <form asp-action="UpdateQuantity" asp-route-id="@i.CartItemId" method="post">
-                            <input type="number" name="Quantity" value="@i.Quantity">
-                            <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
-                        </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Item Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">editing</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CartItem i in Model)
+            {
+            <tr>
+                <td>@i.Product.ProductName</td>
+                <td>
+                    <form asp-action="UpdateQuantity" asp-route-id="@i.CartItemId" method="post">
+                        <input type="number" name="Quantity" value="@i.Quantity">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+                    </form>
 
-                    </td>
+                </td>
 
-                    <td>$@i.Product.UnitPrice</td>
+                <td>$@i.Product.UnitPrice</td>
 
-                    <td>
-                        <form asp-action="RemoveItem" asp-route-id="@i.CartItemId" method="post">
-                            <!-- <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="i.CartItemId">Edit</a> -->
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td></td>
-                    <td>$@ViewBag.total</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <!--Discount form-->
-        <form asp-action="CartList" method="post">
-            <label for="Code">Discount Code:</label>
-            <input type="number" name="Code" value="@ViewBag.Code">
-            <button type="submit" class="btn btn-sm btn-outline-primary">Validate</button>
-            <div asp-validation-summary="All" class="text-danger"></div>
-        </form>
-        <!--Check Out Button-->
-        <form asp-action="Checkout" method="post">
-            <button type="submit" class="btn btn-sm btn-outline-primary">Checkout</button>
-        </form>
-    }
+                <td>
+                    <form asp-action="RemoveItem" asp-route-id="@i.CartItemId" method="post">
+                        <!-- <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="i.CartItemId">Edit</a> -->
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+
+            }
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td>$@ViewBag.total</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--Discount form-->
+    <form asp-action="CartList" method="post">
+        <label for="Code">Discount Code:</label>
+        <input type="number" name="Code" value="@ViewBag.Code">
+        <button type="submit" class="btn btn-sm btn-outline-primary">Validate</button>
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </form>
+    <!--Check Out Button-->
+    <form asp-action="Checkout" method="post">
+        <button type="submit" class="btn btn-sm btn-outline-primary">Checkout</button>
+    </form>
 }
 
 
